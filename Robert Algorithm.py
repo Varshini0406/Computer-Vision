@@ -1,0 +1,15 @@
+import cv2
+import numpy as np
+image = cv2.imread('montage.png', cv2.IMREAD_GRAYSCALE)
+kernelx = np.array([[1, 0], [0, -1]])  
+kernely = np.array([[0, 1], [-1, 0]])
+robertsx = cv2.filter2D(image, cv2.CV_32F, kernelx)
+robertsy = cv2.filter2D(image, cv2.CV_32F, kernely)
+robertsx_8u=cv2.convertScaleAbs(robertsx)
+robertsy_8u=cv2.convertScaleAbs(robertsy)
+roberts_combined = cv2.addWeighted(cv2.pow(robertsx_8u, 2), 0.5, cv2.pow(robertsy_8u, 2), 0.5, 0)
+cv2.imshow('Roberts X', robertsx)
+cv2.imshow('Roberts Y', robertsy)
+cv2.imshow('Roberts Combined', roberts_combined)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
